@@ -1234,6 +1234,11 @@ footer {
 
   window.onload = () => {
     document.getElementById('savedCount').textContent = getSaved().length;
+    if (getApiKey()) {
+      const btn = document.getElementById('apiKeyStatus');
+      btn.textContent = '✅ API Key configurada';
+      btn.classList.add('configured');
+    }
   };
 
   // ── API KEY ───────────────────────────────────────────
@@ -1243,6 +1248,9 @@ footer {
     if (!key) { alert('Ingresá una API key válida'); return; }
     localStorage.setItem('gemini_api_key', key);
     document.getElementById('apiKeyModal').style.display = 'none';
+    const btn = document.getElementById('apiKeyStatus');
+    btn.textContent = '✅ API Key configurada';
+    btn.classList.add('configured');
   }
 
   function removeApiKey() {
@@ -1274,7 +1282,9 @@ footer {
     document.getElementById('promptToggleText').textContent = promptOpen ? '✏️ Cerrar prompt personalizado' : '✏️ Quiero escribir mi propio prompt';
   }
 
-  const GEMINI_KEY = 'AIzaSyCvmNwq3UhtY9A2Vh1nWsi72Uwd-qg0uWQ';
+  function getApiKey() { return localStorage.getItem('gemini_api_key') || ''; }
+
+  const GEMINI_KEY = getApiKey;
 
   async function generateContent() {
     const servicio = document.getElementById('servicio').value;
@@ -1308,8 +1318,11 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
 
     try {
       // Llamada directa a Gemini para texto
+      const apiKey = getApiKey();
+      if (!apiKey) { throw new Error('Configurá tu API key primero'); }
+
       const textRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
