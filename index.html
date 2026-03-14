@@ -1313,8 +1313,13 @@ Creá un ${tipoLabels[selectedType] || 'post'} sobre "${servicio}".
 Tono: ${selectedTone}.
 Llamado a la acción: ${cta}.
 ${extra ? 'Información adicional: ' + extra : ''}
-Incluí emojis, sea natural y en español rioplatense.
+Escribí en texto plano sin asteriscos ni markdown. Usá emojis, sea natural y en español rioplatense.
 Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASHTAGS: #tag1 #tag2 #tag3 #tag4 #tag5 #tag6`;
+
+    // Prompt para imagen — si hay prompt personalizado, extraer descripción visual
+    const imagePrompt = customPrompt
+      ? `${customPrompt}. Professional photography style, vibrant colors, high quality.`
+      : `Professional photography for a veterinary clinic Instagram post about ${servicio}. Happy healthy pet, warm lighting, clean modern veterinary clinic, vibrant colors, high quality commercial photography.`;
 
     try {
       // Llamada directa a Gemini para texto
@@ -1334,7 +1339,12 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
 
       const fullText = textData.candidates[0].content.parts[0].text;
       const hashtagMatch = fullText.match(/HASHTAGS:(.*)/i);
-      const cleanText = fullText.replace(/HASHTAGS:.*/is, '').trim();
+      const cleanText = fullText
+        .replace(/HASHTAGS:.*/is, '')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/\*(.*?)\*/g, '$1')
+        .replace(/^---+$/gm, '')
+        .trim();
       const hashtags = hashtagMatch ? hashtagMatch[1].trim().split(/\s+/).filter(t => t.startsWith('#')) : [];
 
       document.getElementById('generatedText').textContent = cleanText;
@@ -1348,7 +1358,6 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
 
       // Generar imagen con n8n + Imagen 3
       try {
-        const imagePrompt = `Professional photography for a veterinary clinic Instagram post. Topic: ${servicio}. Happy healthy pet, warm lighting, clean modern veterinary clinic, vibrant colors, high quality commercial photography.`;
         const imgRes = await fetch('https://n8n-fo1u.onrender.com/webhook/generar-imagen', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
