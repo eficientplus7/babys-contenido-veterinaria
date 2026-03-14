@@ -1308,7 +1308,15 @@ footer {
 
     const tipoLabels = { post: 'post de Instagram', historia: 'historia de Instagram', promo: 'publicación de promoción', tip: 'tip educativo' };
 
-    const textPrompt = customPrompt || `Sos community manager de Veterinaria Baby's, una veterinaria argentina.
+    const textPrompt = customPrompt
+      ? `Sos community manager de Veterinaria Baby's, una veterinaria argentina.
+Basándote en esta idea: "${customPrompt}"
+Creá un ${tipoLabels[selectedType] || 'post'} para Instagram.
+Tono: ${selectedTone}.
+Llamado a la acción: ${cta}.
+Escribí solo el texto del post, en texto plano sin asteriscos ni markdown. Usá emojis, en español rioplatense.
+Al final agregá 6 hashtags en una línea con el formato exacto: HASHTAGS: #tag1 #tag2 #tag3 #tag4 #tag5 #tag6`
+      : `Sos community manager de Veterinaria Baby's, una veterinaria argentina.
 Creá un ${tipoLabels[selectedType] || 'post'} sobre "${servicio}".
 Tono: ${selectedTone}.
 Llamado a la acción: ${cta}.
@@ -1316,9 +1324,9 @@ ${extra ? 'Información adicional: ' + extra : ''}
 Escribí en texto plano sin asteriscos ni markdown. Usá emojis, sea natural y en español rioplatense.
 Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASHTAGS: #tag1 #tag2 #tag3 #tag4 #tag5 #tag6`;
 
-    // Prompt para imagen — si hay prompt personalizado, extraer descripción visual
+    // Prompt para imagen — siempre en inglés para mejores resultados
     const imagePrompt = customPrompt
-      ? `${customPrompt}. Professional photography style, vibrant colors, high quality.`
+      ? `${customPrompt}. Professional photography style, vibrant colors, high quality, photorealistic.`
       : `Professional photography for a veterinary clinic Instagram post about ${servicio}. Happy healthy pet, warm lighting, clean modern veterinary clinic, vibrant colors, high quality commercial photography.`;
 
     try {
