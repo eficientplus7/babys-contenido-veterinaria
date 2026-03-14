@@ -1233,7 +1233,6 @@ footer {
   }
 
   window.onload = () => {
-    updateKeyStatus();
     document.getElementById('savedCount').textContent = getSaved().length;
   };
 
@@ -1244,30 +1243,16 @@ footer {
     if (!key) { alert('Ingresá una API key válida'); return; }
     localStorage.setItem('gemini_api_key', key);
     document.getElementById('apiKeyModal').style.display = 'none';
-    updateKeyStatus();
   }
 
   function removeApiKey() {
     localStorage.removeItem('gemini_api_key');
     document.getElementById('apiKeyModal').style.display = 'none';
-    updateKeyStatus();
-  }
-
-  function updateKeyStatus() {
-    const btn = document.getElementById('apiKeyStatus');
-    const alert = document.getElementById('alertCard');
-    if (getApiKey()) {
-      btn.textContent = '✅ API Key configurada';
-      btn.classList.add('configured');
-      alert.classList.remove('visible');
-    } else {
-      btn.textContent = '🔑 Configurar API Key';
-      btn.classList.remove('configured');
-    }
   }
 
   function showApiKeyModal() {
-    document.getElementById('apiKeyInput').value = getApiKey();
+    document.getElementById('apiKeyModal').style.display = 'flex';
+  }
     document.getElementById('apiKeyModal').style.display = 'flex';
   }
 
@@ -1309,7 +1294,8 @@ footer {
     resultSection.classList.add('visible');
     document.getElementById('generatedText').textContent = '';
     document.getElementById('hashtagList').innerHTML = '';
-    document.getElementById('imageLoading').style.display = 'flex';
+    const imgLoading = document.getElementById('imageLoading');
+    if (imgLoading) imgLoading.style.display = 'flex';
     generatedImageUrl = null;
 
     const tipoLabels = { post: 'post de Instagram', historia: 'historia de Instagram', promo: 'publicación de promoción', tip: 'tip educativo' };
