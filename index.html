@@ -1369,23 +1369,6 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
       } catch(imgErr) {
         document.getElementById('imagePlaceholder').innerHTML = '<span style="font-size:36px">🐾</span><span style="font-size:12px;color:var(--text-muted)">Imagen no disponible</span>';
       }
-        const imgData = await imgRes.json();
-        if (imgData.predictions && imgData.predictions[0]) {
-          const b64 = imgData.predictions[0].bytesBase64Encoded;
-          const mimeType = imgData.predictions[0].mimeType || 'image/png';
-          generatedImageUrl = `data:${mimeType};base64,${b64}`;
-          const imgEl = document.createElement('img');
-          imgEl.src = generatedImageUrl;
-          imgEl.style.cssText = 'width:100%;border-radius:10px;display:block;';
-          const placeholder = document.getElementById('imagePlaceholder');
-          placeholder.innerHTML = '';
-          placeholder.appendChild(imgEl);
-        } else {
-          document.getElementById('imagePlaceholder').innerHTML = '<span style="font-size:36px">🐾</span><span style="font-size:12px;color:var(--text-muted)">Imagen no disponible con esta key</span>';
-        }
-      } catch(imgErr) {
-        document.getElementById('imagePlaceholder').innerHTML = '<span style="font-size:36px">🐾</span><span style="font-size:12px;color:var(--text-muted)">Imagen no disponible</span>';
-      }
 
     } catch (err) {
       document.getElementById('generatedText').textContent = '❌ Error: ' + err.message;
