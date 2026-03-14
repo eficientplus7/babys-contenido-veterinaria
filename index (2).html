@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veterinaria Baby's — Generador de Contenido</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green-dark: #2D6A4F;
+  --green-mid: #40916C;
+  --green-light: #52B788;
+  --green-hero: #52B788;
+  --green-bg: #f0faf5;
+  --orange: #FF8C00;
+  --orange-hover: #e67e00;
+  --white: #ffffff;
+  --gray-bg: #f4f6f8;
+  --gray-border: #e8ecef;
+  --text-dark: #1a2e23;
+  --text-mid: #4a6358;
+  --text-muted: #8a9e95;
+  --red: #e53e3e;
+  --amber: #d97706;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--gray-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--green-dark);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.logo-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.api-key-btn {
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.api-key-btn:hover { background: rgba(255,255,255,0.2); }
+.api-key-btn.configured { border-color: #4ade80; color: #4ade80; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-light) 100%);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+
+.hero-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+}
+
+.hero-emojis {
+  display: flex;
+  gap: 8px;
+  font-size: 52px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+/* MAIN */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* TIPO SELECTOR */
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.type-card {
+  background: var(--white);
+  border: 2px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.type-card:hover {
+  border-color: var(--green-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.type-card.active {
+  border-color: var(--green-mid);
+  background: #f0faf5;
+}
+
+.type-icon { font-size: 30px; margin-bottom: 10px; }
+.type-name { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+.type-desc { font-size: 11px; color: var(--text-muted); }
+
+/* FORM CARD */
+.form-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-border);
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mid);
+  letter-spacing: 0.3px;
+}
+
+input, select, textarea {
+  background: var(--gray-bg);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green-mid);
+  background: white;
+}
+
+textarea { resize: vertical; min-height: 85px; }
+select option { background: white; }
+
+/* TONO */
+.tone-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.tone-btn {
+  background: var(--gray-bg);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 20px;
+  padding: 7px 15px;
+  font-size: 13px;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.tone-btn:hover { border-color: var(--green-light); color: var(--green-dark); }
+.tone-btn.active { background: var(--green-dark); color: white; border-color: var(--green-dark); }
+
+/* PROMPT TOGGLE */
+.prompt-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f0faf5;
+  border: 1.5px dashed var(--green-light);
+  border-radius: 12px;
+  padding: 13px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--green-dark);
+  margin-bottom: 4px;
+  transition: all 0.2s;
+}
+
+.prompt-toggle:hover { background: #e0f5ea; }
+
+.prompt-box {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  margin-bottom: 0;
+}
+
+.prompt-box.open { max-height: 250px; margin-bottom: 16px; }
+
+.prompt-inner {
+  background: #f0faf5;
+  border: 1.5px dashed var(--green-light);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 16px;
+}
+
+.prompt-tip {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* GENERATE BUTTON */
+.generate-btn {
+  width: 100%;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+}
+
+.generate-btn:hover { background: var(--orange-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,140,0,0.35); }
+.generate-btn:active { transform: translateY(0); }
+.generate-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* RESULT */
+.result-section {
+  display: none;
+  animation: fadeUp 0.4s ease;
+}
+.result-section.visible { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  margin-top: 28px;
+}
+
+.result-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.result-card {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.result-card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--gray-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fafafa;
+}
+
+.result-card-title { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+
+.action-btn {
+  background: var(--green-dark);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+
+.action-btn:hover { background: var(--green-mid); }
+
+.result-card-body { padding: 18px; }
+
+.result-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-dark);
+  white-space: pre-wrap;
+}
+
+.hashtag-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+
+.hashtag {
+  background: #e8f5ee;
+  border: 1px solid #b8dfc8;
+  color: var(--green-dark);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* IMAGE */
+.image-placeholder {
+  aspect-ratio: 1;
+  background: var(--gray-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-radius: 10px;
+  border: 2px dashed var(--gray-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.image-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+.image-loading {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-bg);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--gray-border);
+  border-top-color: var(--green-mid);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ALERT CARD */
+.alert-card {
+  background: #fff8f0;
+  border: 1px solid #fcd5a0;
+  border-left: 4px solid var(--orange);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #92400e;
+  margin-bottom: 20px;
+  display: none;
+}
+.alert-card.visible { display: block; }
+
+/* HISTORY */
+.history-section { margin-top: 32px; }
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.history-card {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.history-card:hover { border-color: var(--green-light); transform: translateY(-1px); }
+
+.history-type {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.history-preview { font-size: 13px; color: var(--text-mid); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-date { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: 6px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal-actions { display: flex; gap: 10px; margin-top: 14px; }
+
+.btn-primary {
+  flex: 1;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: var(--orange-hover); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--text-muted); }
+
+.modal-link { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+.modal-link a { color: var(--green-mid); text-decoration: none; }
+
+/* NAV TABS */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 24px;
+}
+
+.nav-tab {
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-tab:hover { background: rgba(255,255,255,0.1); color: white; }
+.nav-tab.active { background: rgba(255,255,255,0.18); color: white; }
+
+.nav-tab .count-badge {
+  background: var(--orange);
+  color: white;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* SAVED PAGE */
+#savedPage { display: none; }
+#savedPage.visible { display: block; }
+#mainPage.hidden { display: none; }
+
+.saved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.saved-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.saved-card {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+}
+
+.saved-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+.saved-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--gray-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.saved-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.saved-card-body { padding: 16px; }
+
+.saved-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.saved-type-badge {
+  background: #e8f5ee;
+  color: var(--green-dark);
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.saved-date {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.saved-text {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.saved-hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.saved-hashtag {
+  background: #e8f5ee;
+  color: var(--green-dark);
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.saved-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.saved-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  border: none;
+  text-align: center;
+}
+
+.saved-btn-dl { background: var(--green-dark); color: white; }
+.saved-btn-dl:hover { background: var(--green-mid); }
+.saved-btn-del { background: #fee2e2; color: #dc2626; }
+.saved-btn-del:hover { background: #fecaca; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state div { font-size: 52px; margin-bottom: 16px; }
+.empty-state p { font-size: 15px; }
+
+.saved-hero {
+  background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-light) 100%);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.saved-hero-content { }
+.saved-hero-title { font-size: 26px; font-weight: 700; color: white; margin-bottom: 4px; }
+.saved-hero-sub { font-size: 14px; color: rgba(255,255,255,0.8); }
+
+.clear-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.clear-btn:hover { background: rgba(220,38,38,0.3); border-color: rgba(220,38,38,0.5); }
+
+.filters-bar {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: var(--shadow);
+}
+
+.filter-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 45px;
+}
+
+.filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.chip {
+  background: var(--gray-bg);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+}
+
+.chip:hover { border-color: var(--green-light); color: var(--green-dark); }
+.chip.active { background: var(--green-dark); color: white; border-color: var(--green-dark); }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--gray-border);
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .type-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-grid { grid-template-columns: 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+  .history-grid { grid-template-columns: 1fr; }
+  .hero-emojis { font-size: 36px; }
+  .hero-title { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🐾</div>
+    <div>
+      <div class="logo-name">Veterinaria Baby's</div>
+      <div class="logo-sub">Generador de Contenido</div>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPage('main', this)">✨ Crear contenido</button>
+    <button class="nav-tab" onclick="switchPage('saved', this)" id="savedTab">📁 Mis publicaciones <span class="count-badge" id="savedCount">0</span></button>
+  </nav>
+  <div class="header-right">
+    <button class="api-key-btn" id="apiKeyStatus" onclick="showApiKeyModal()">🔑 Configurar API Key</button>
+  </div>
+</header>
+
+<!-- MAIN PAGE -->
+<div id="mainPage">
+  <div class="hero-content">
+    <div>
+      <div class="hero-title">¡Hola! 👋<br>Creá contenido para tus redes</div>
+      <div class="hero-sub">Generá posts, historias y promociones con IA en segundos</div>
+    </div>
+    <div class="hero-emojis">🐶🐱🐰</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ALERTA -->
+  <div class="alert-card" id="alertCard">
+    ⚠️ <strong>API Key no configurada.</strong> Hacé click en "Configurar API Key" arriba para empezar a generar contenido real.
+  </div>
+
+  <!-- TIPO -->
+  <div class="section-title">¿Qué querés crear?</div>
+  <div class="type-grid">
+    <div class="type-card active" onclick="selectType(this, 'post')">
+      <div class="type-icon">📸</div>
+      <div class="type-name">Post Instagram</div>
+      <div class="type-desc">Texto + imagen para el feed</div>
+    </div>
+    <div class="type-card" onclick="selectType(this, 'historia')">
+      <div class="type-icon">⭕</div>
+      <div class="type-name">Historia</div>
+      <div class="type-desc">Story vertical con texto</div>
+    </div>
+    <div class="type-card" onclick="selectType(this, 'promo')">
+      <div class="type-icon">🏷️</div>
+      <div class="type-name">Promoción</div>
+      <div class="type-desc">Oferta o descuento especial</div>
+    </div>
+    <div class="type-card" onclick="selectType(this, 'tip')">
+      <div class="type-icon">💡</div>
+      <div class="type-name">Tip / Consejo</div>
+      <div class="type-desc">Contenido educativo</div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Servicio o tema</label>
+        <select id="servicio">
+          <option value="">Seleccioná un servicio...</option>
+          <option>Baño y corte</option>
+          <option>Consulta veterinaria</option>
+          <option>Vacunación</option>
+          <option>Desparasitación</option>
+          <option>Guardería</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Llamado a la acción</label>
+        <select id="cta">
+          <option>Sacar turno por WhatsApp</option>
+          <option>Llamanos</option>
+          <option>Visitanos</option>
+          <option>Ver más info</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Información adicional (opcional)</label>
+        <textarea id="extra" placeholder="Ej: Esta semana 20% de descuento en baño para razas grandes..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 18px;">
+      <label>Tono del mensaje</label>
+      <div class="tone-grid">
+        <button class="tone-btn active" onclick="selectTone(this)">😊 Amigable</button>
+        <button class="tone-btn" onclick="selectTone(this)">💼 Profesional</button>
+        <button class="tone-btn" onclick="selectTone(this)">🎉 Divertido</button>
+        <button class="tone-btn" onclick="selectTone(this)">❤️ Emotivo</button>
+        <button class="tone-btn" onclick="selectTone(this)">🔥 Urgente</button>
+      </div>
+    </div>
+
+    <!-- PROMPT PERSONALIZADO -->
+    <div class="prompt-toggle" onclick="togglePrompt()">
+      <span id="promptToggleText">✏️ Quiero escribir mi propio prompt</span>
+      <span id="promptArrow" style="transition: transform 0.2s; font-size:12px;">▼</span>
+    </div>
+    <div class="prompt-box" id="promptBox">
+      <div class="prompt-inner">
+        <label style="margin-bottom:8px; display:block;">Tu prompt personalizado</label>
+        <textarea id="customPrompt" placeholder="Ej: Creá un post anunciando 20% de descuento en baño para perros grandes. Tono divertido, con emojis, terminá con un llamado a WhatsApp..." style="min-height: 100px; width: 100%;"></textarea>
+        <div class="prompt-tip">💡 Si escribís un prompt propio, tiene prioridad sobre los campos de arriba.</div>
+      </div>
+    </div>
+
+    <button class="generate-btn" id="generateBtn" onclick="generateContent()">
+      ✨ Generar contenido
+    </button>
+  </div>
+
+  <!-- RESULTADO -->
+  <div class="result-section" id="resultSection">
+    <div class="result-header">
+      <div class="result-title">✅ Contenido generado</div>
+      <div style="display:flex; gap:8px;">
+        <button class="action-btn" style="background:var(--orange);" onclick="savePublication()">💾 Guardar</button>
+        <button class="action-btn" onclick="downloadAll()">⬇ Descargar todo</button>
+      </div>
+    </div>
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-card-header">
+          <span class="result-card-title">📝 Texto del post</span>
+          <button class="action-btn" onclick="copyText()">Copiar</button>
+        </div>
+        <div class="result-card-body">
+          <div class="result-text" id="generatedText"></div>
+          <div class="hashtag-list" id="hashtagList"></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-header">
+          <span class="result-card-title">🖼 Imagen generada</span>
+          <button class="action-btn" id="downloadImgBtn" onclick="downloadImage()">Descargar</button>
+        </div>
+        <div class="result-card-body">
+          <div class="image-placeholder" id="imagePlaceholder">
+            <div class="image-loading" id="imageLoading">
+              <div class="spinner"></div>
+              <span style="font-size:13px; color:var(--text-muted);">Generando imagen...</span>
+            </div>
+            <span style="font-size:36px;">🐾</span>
+            <span>La imagen aparecerá aquí</span>
+            <span style="font-size:11px; color:var(--text-muted);">Powered by Gemini Imagen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="history-section">
+    <div class="section-title">Últimas generaciones</div>
+    <div class="history-grid">
+      <div class="history-card">
+        <div class="history-type">📸 Post Instagram</div>
+        <div class="history-preview">¡Tu mejor amigo merece el mejor cuidado! 🐶 Esta semana...</div>
+        <div class="history-date">Hace 2 días</div>
+      </div>
+      <div class="history-card">
+        <div class="history-type">🏷️ Promoción</div>
+        <div class="history-preview">20% OFF en baño y corte para razas grandes. Solo hasta el viernes...</div>
+        <div class="history-date">Hace 4 días</div>
+      </div>
+      <div class="history-card">
+        <div class="history-type">💡 Tip</div>
+        <div class="history-preview">¿Sabías que los perros deben bañarse cada 3-4 semanas?...</div>
+        <div class="history-date">Hace 1 semana</div>
+      </div>
+    </div>
+  </div>
+</main>
+</div><!-- end mainPage -->
+
+<!-- SAVED PAGE -->
+<div id="savedPage">
+  <div class="saved-hero">
+    <div class="saved-hero-content">
+      <div class="saved-hero-title">Mis publicaciones 📁</div>
+      <div class="saved-hero-sub">Todo el contenido que generaste y guardaste</div>
+    </div>
+    <button onclick="clearAllSaved()" class="clear-btn">🗑 Borrar todo</button>
+  </div>
+  <main>
+    <!-- FILTROS -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <span class="filter-label">Tipo</span>
+        <div class="filter-chips" id="filterType">
+          <button class="chip active" onclick="setFilter('type', 'todos', this)">Todos</button>
+          <button class="chip" onclick="setFilter('type', 'post', this)">📸 Post</button>
+          <button class="chip" onclick="setFilter('type', 'historia', this)">⭕ Historia</button>
+          <button class="chip" onclick="setFilter('type', 'promo', this)">🏷️ Promo</button>
+          <button class="chip" onclick="setFilter('type', 'tip', this)">💡 Tip</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Fecha</span>
+        <div class="filter-chips" id="filterDate">
+          <button class="chip active" onclick="setFilter('date', 'todos', this)">Todas</button>
+          <button class="chip" onclick="setFilter('date', 'hoy', this)">Hoy</button>
+          <button class="chip" onclick="setFilter('date', 'semana', this)">Esta semana</button>
+          <button class="chip" onclick="setFilter('date', 'mes', this)">Este mes</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Hashtag</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="text" id="hashtagFilter" placeholder="Ej: #BañoYCorte" oninput="applyFilters()" style="padding:7px 12px; border-radius:20px; border:1.5px solid var(--gray-border); font-size:13px; font-family:'Inter',sans-serif; outline:none; width:180px; background:var(--white);">
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="filterSummary" style="font-size:13px; color:var(--text-muted); margin-bottom:16px;"></div>
+    <div id="savedGrid" class="saved-grid"></div>
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <div>📭</div>
+      <p>Todavía no guardaste ninguna publicación.<br>Generá contenido y apretá <strong>💾 Guardar</strong>.</p>
+    </div>
+    <div id="emptyFilter" class="empty-state" style="display:none;">
+      <div>🔍</div>
+      <p>No hay publicaciones que coincidan con ese filtro.</p>
+    </div>
+  </main>
+</div>
+
+<footer>
+  🐾 Veterinaria Baby's · Generador de contenido con IA · Powered by Google Gemini
+</footer>
+
+<!-- MODAL API KEY -->
+<div class="modal-overlay" id="apiKeyModal" style="display:none; align-items:center; justify-content:center;">
+  <div class="modal">
+    <div class="modal-title">🔑 Configurar API Key</div>
+    <div class="modal-sub">Ingresá tu API key de Google AI Studio. Se guarda solo en tu navegador y nunca se comparte con nadie.</div>
+    <label style="font-size:12px; font-weight:600; color:var(--text-mid); display:block; margin-bottom:6px;">API Key de Gemini</label>
+    <input id="apiKeyInput" type="password" placeholder="AIza..." style="width:100%; margin-bottom:4px;">
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveApiKey()">Guardar</button>
+      <button class="btn-ghost" onclick="removeApiKey()">Eliminar</button>
+      <button class="btn-ghost" onclick="document.getElementById('apiKeyModal').style.display='none'">Cancelar</button>
+    </div>
+    <div class="modal-link">Conseguí tu key gratis en <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></div>
+  </div>
+</div>
+
+<script>
+  let selectedType = 'post';
+  let selectedTone = 'Amigable';
+  let generatedImageUrl = null;
+
+  let activeFilters = { type: 'todos', date: 'todos' };
+
+  function setFilter(key, value, el) {
+    activeFilters[key] = value;
+    const group = el.parentElement;
+    group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const all = getSaved();
+    const hashtagQuery = document.getElementById('hashtagFilter').value.trim().toLowerCase();
+    const now = new Date();
+
+    const filtered = all.filter(p => {
+      if (activeFilters.type !== 'todos' && p.type !== activeFilters.type) return false;
+      if (activeFilters.date !== 'todos') {
+        const created = new Date(p.id);
+        const diffDays = (now - created) / (1000 * 60 * 60 * 24);
+        if (activeFilters.date === 'hoy' && diffDays > 1) return false;
+        if (activeFilters.date === 'semana' && diffDays > 7) return false;
+        if (activeFilters.date === 'mes' && diffDays > 30) return false;
+      }
+      if (hashtagQuery) {
+        const hasMatch = p.hashtags.some(h => h.toLowerCase().includes(hashtagQuery));
+        if (!hasMatch) return false;
+      }
+      return true;
+    });
+
+    const summary = document.getElementById('filterSummary');
+    summary.textContent = filtered.length === all.length
+      ? `${all.length} publicación${all.length !== 1 ? 'es' : ''} guardada${all.length !== 1 ? 's' : ''}`
+      : `${filtered.length} de ${all.length} publicaciones`;
+
+    renderSavedFiltered(filtered);
+  }
+
+  function renderSaved() { applyFilters(); }
+
+  function renderSavedFiltered(filtered) {
+    const grid = document.getElementById('savedGrid');
+    const empty = document.getElementById('emptyState');
+    const emptyFilter = document.getElementById('emptyFilter');
+    const all = getSaved();
+
+    if (all.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      emptyFilter.style.display = 'none';
+      return;
+    }
+    empty.style.display = 'none';
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      emptyFilter.style.display = 'block';
+      return;
+    }
+    emptyFilter.style.display = 'none';
+
+    const typeLabels = { post: '📸 Post', historia: '⭕ Historia', promo: '🏷️ Promo', tip: '💡 Tip' };
+    grid.innerHTML = filtered.map(p => `
+      <div class="saved-card">
+        <div class="saved-card-img">
+          ${p.imageUrl ? `<img src="${p.imageUrl}" alt="imagen">` : '<span style="font-size:48px">🐾</span>'}
+        </div>
+        <div class="saved-card-body">
+          <div class="saved-card-meta">
+            <span class="saved-type-badge">${typeLabels[p.type] || p.type}</span>
+            <span class="saved-date">${p.date}</span>
+          </div>
+          <div class="saved-text">${p.text}</div>
+          <div class="saved-hashtags">
+            ${p.hashtags.slice(0,4).map(h => `<span class="saved-hashtag">${h}</span>`).join('')}
+          </div>
+          <div class="saved-actions">
+            <button class="saved-btn saved-btn-dl" onclick="downloadSaved(${p.id})">⬇ Descargar</button>
+            <button class="saved-btn saved-btn-del" onclick="deleteSaved(${p.id})">🗑 Borrar</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── NAVIGATION ───────────────────────────────────────
+  function switchPage(page, el) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    if (page === 'saved') {
+      document.getElementById('mainPage').classList.add('hidden');
+      document.getElementById('savedPage').classList.add('visible');
+      renderSaved();
+    } else {
+      document.getElementById('mainPage').classList.remove('hidden');
+      document.getElementById('savedPage').classList.remove('visible');
+    }
+  }
+
+  // ── SAVED PUBLICATIONS ───────────────────────────────
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem('babys_saved') || '[]'); } 
+    catch { return []; }
+  }
+
+  function setSaved(data) {
+    localStorage.setItem('babys_saved', JSON.stringify(data));
+    document.getElementById('savedCount').textContent = data.length;
+  }
+
+  function savePublication() {
+    const text = document.getElementById('generatedText').textContent;
+    if (!text || text.startsWith('❌')) { alert('Primero generá contenido válido'); return; }
+    const hashtags = Array.from(document.querySelectorAll('.hashtag')).map(h => h.textContent);
+    const saved = getSaved();
+    saved.unshift({
+      id: Date.now(),
+      type: selectedType,
+      text,
+      hashtags,
+      imageUrl: generatedImageUrl,
+      date: new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    });
+    setSaved(saved);
+    const btn = event.target;
+    btn.textContent = '✅ Guardado';
+    setTimeout(() => btn.textContent = '💾 Guardar', 2000);
+  }
+
+  function deleteSaved(id) {
+    const saved = getSaved().filter(p => p.id !== id);
+    setSaved(saved);
+    renderSaved();
+  }
+
+  function clearAllSaved() {
+    if (!confirm('¿Seguro que querés borrar todas las publicaciones guardadas?')) return;
+    setSaved([]);
+    renderSaved();
+  }
+
+  function downloadSaved(id) {
+    const pub = getSaved().find(p => p.id === id);
+    if (!pub) return;
+    const content = pub.text + '\n\n' + pub.hashtags.join(' ');
+    const blob = new Blob([content], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `babys-${pub.type}-${pub.id}.txt`;
+    a.click();
+    if (pub.imageUrl) {
+      const b = document.createElement('a');
+      b.href = pub.imageUrl;
+      b.download = `babys-${pub.type}-${pub.id}.png`;
+      b.click();
+    }
+  }
+
+  window.onload = () => {
+    updateKeyStatus();
+    document.getElementById('savedCount').textContent = getSaved().length;
+  };
+
+  // ── API KEY ───────────────────────────────────────────
+
+  function saveApiKey() {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key) { alert('Ingresá una API key válida'); return; }
+    localStorage.setItem('gemini_api_key', key);
+    document.getElementById('apiKeyModal').style.display = 'none';
+    updateKeyStatus();
+  }
+
+  function removeApiKey() {
+    localStorage.removeItem('gemini_api_key');
+    document.getElementById('apiKeyModal').style.display = 'none';
+    updateKeyStatus();
+  }
+
+  function updateKeyStatus() {
+    const btn = document.getElementById('apiKeyStatus');
+    const alert = document.getElementById('alertCard');
+    if (getApiKey()) {
+      btn.textContent = '✅ API Key configurada';
+      btn.classList.add('configured');
+      alert.classList.remove('visible');
+    } else {
+      btn.textContent = '🔑 Configurar API Key';
+      btn.classList.remove('configured');
+    }
+  }
+
+  function showApiKeyModal() {
+    document.getElementById('apiKeyInput').value = getApiKey();
+    document.getElementById('apiKeyModal').style.display = 'flex';
+  }
+
+  function selectType(el, type) {
+    document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedType = type;
+  }
+
+  function selectTone(el) {
+    document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    selectedTone = el.textContent.trim();
+  }
+
+  let promptOpen = false;
+  function togglePrompt() {
+    promptOpen = !promptOpen;
+    document.getElementById('promptBox').classList.toggle('open', promptOpen);
+    document.getElementById('promptArrow').style.transform = promptOpen ? 'rotate(180deg)' : 'rotate(0)';
+    document.getElementById('promptToggleText').textContent = promptOpen ? '✏️ Cerrar prompt personalizado' : '✏️ Quiero escribir mi propio prompt';
+  }
+
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwm-rK2_MVi0BuQg1uMhnDFKhBa2WtENBvyTAITCSIFSunLqn7wsjKqamPogPwioWHaWg/exec';
+
+  async function generateContent() {
+    const servicio = document.getElementById('servicio').value;
+    if (!servicio) { alert('Por favor seleccioná un servicio o tema'); return; }
+
+    const customPrompt = document.getElementById('customPrompt').value.trim();
+    const cta = document.getElementById('cta').value;
+    const extra = document.getElementById('extra').value.trim();
+
+    const btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    btn.textContent = '⟳ Generando...';
+
+    const resultSection = document.getElementById('resultSection');
+    resultSection.classList.add('visible');
+    document.getElementById('generatedText').textContent = '';
+    document.getElementById('hashtagList').innerHTML = '';
+    document.getElementById('imageLoading').style.display = 'flex';
+    generatedImageUrl = null;
+
+    const tipoLabels = { post: 'post de Instagram', historia: 'historia de Instagram', promo: 'publicación de promoción', tip: 'tip educativo' };
+
+    const textPrompt = customPrompt || `Sos community manager de Veterinaria Baby's, una veterinaria argentina.
+Creá un ${tipoLabels[selectedType] || 'post'} sobre "${servicio}".
+Tono: ${selectedTone}.
+Llamado a la acción: ${cta}.
+${extra ? 'Información adicional: ' + extra : ''}
+Incluí emojis, sea natural y en español rioplatense.
+Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASHTAGS: #tag1 #tag2 #tag3 #tag4 #tag5 #tag6`;
+
+    const imagePrompt = `Professional photography for a veterinary clinic Instagram post. Topic: ${servicio}. Happy healthy pet, warm lighting, clean modern clinic background, vibrant colors, high quality commercial photography style.`;
+
+    try {
+      // Usar URLSearchParams para evitar CORS preflight
+      const params = new URLSearchParams({
+        payload: JSON.stringify({
+          prompt: textPrompt,
+          imagePrompt: imagePrompt,
+          aspectRatio: selectedType === 'historia' ? '9:16' : '1:1'
+        })
+      });
+
+      const res = await fetch(APPS_SCRIPT_URL + '?' + params.toString(), {
+        method: 'GET',
+        redirect: 'follow'
+      });
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Error desconocido');
+
+      const fullText = data.text;
+      const hashtagMatch = fullText.match(/HASHTAGS:(.*)/i);
+      const cleanText = fullText.replace(/HASHTAGS:.*/is, '').trim();
+      const hashtags = hashtagMatch ? hashtagMatch[1].trim().split(/\s+/).filter(t => t.startsWith('#')) : [];
+
+      document.getElementById('generatedText').textContent = cleanText;
+      const hashtagList = document.getElementById('hashtagList');
+      hashtags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'hashtag';
+        span.textContent = tag;
+        hashtagList.appendChild(span);
+      });
+
+      generatedImageUrl = data.image;
+      const imgEl = document.createElement('img');
+      imgEl.src = generatedImageUrl;
+      const placeholder = document.getElementById('imagePlaceholder');
+      placeholder.innerHTML = '';
+      placeholder.appendChild(imgEl);
+
+    } catch (err) {
+      document.getElementById('generatedText').textContent = '❌ Error: ' + err.message + '\n\nVerificá que tu API key sea válida.';
+    } finally {
+      document.getElementById('imageLoading').style.display = 'none';
+      btn.disabled = false;
+      btn.textContent = '✨ Generar contenido';
+      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function copyText() {
+    const text = document.getElementById('generatedText').textContent;
+    const hashtags = Array.from(document.querySelectorAll('.hashtag')).map(h => h.textContent).join(' ');
+    navigator.clipboard.writeText(text + '\n\n' + hashtags);
+    event.target.textContent = '✅ Copiado';
+    setTimeout(() => event.target.textContent = 'Copiar', 2000);
+  }
+
+  function downloadImage() {
+    if (!generatedImageUrl) return;
+    const a = document.createElement('a');
+    a.href = generatedImageUrl;
+    a.download = `babys-${selectedType}-${Date.now()}.png`;
+    a.click();
+  }
+
+  function downloadAll() {
+    const text = document.getElementById('generatedText').textContent;
+    const hashtags = Array.from(document.querySelectorAll('.hashtag')).map(h => h.textContent).join(' ');
+    const blob = new Blob([text + '\n\n' + hashtags], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `babys-contenido-${Date.now()}.txt`;
+    a.click();
+    if (generatedImageUrl) downloadImage();
+  }
+</script>
+</body>
+</html>
