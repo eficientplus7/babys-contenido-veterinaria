@@ -1325,7 +1325,7 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
     try {
       // Llamada directa a Gemini para texto
       const textRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
