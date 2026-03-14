@@ -1346,17 +1346,17 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
         hashtagList.appendChild(span);
       });
 
-      // Generar imagen con Unsplash
+      // Generar imagen con n8n + Imagen 3
       try {
-        const UNSPLASH_KEY = 'ZM41kDRYRKgpVf2vgtUXqmR5amppspkwqYlMzMIjt1s';
-        const queries = { 'Baño y corte': 'dog grooming', 'Consulta veterinaria': 'veterinarian dog', 'Vacunación': 'dog vaccine vet', 'Desparasitación': 'puppy veterinary', 'Guardería': 'dogs playing', 'Otro': 'cute pet' };
-        const query = queries[servicio] || 'cute pet veterinary';
-        const imgRes = await fetch(
-          `https://api.unsplash.com/photos/random?query=${encodeURIComponent(query)}&orientation=${selectedType === 'historia' ? 'portrait' : 'squarish'}&client_id=${UNSPLASH_KEY}`
-        );
+        const imagePrompt = `Professional photography for a veterinary clinic Instagram post. Topic: ${servicio}. Happy healthy pet, warm lighting, clean modern veterinary clinic, vibrant colors, high quality commercial photography.`;
+        const imgRes = await fetch('https://n8n-fo1u.onrender.com/webhook/generar-imagen', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imagePrompt, aspectRatio: selectedType === 'historia' ? '9:16' : '1:1' })
+        });
         const imgData = await imgRes.json();
-        if (imgData.urls) {
-          generatedImageUrl = imgData.urls.regular;
+        if (imgData.success && imgData.image) {
+          generatedImageUrl = `data:${imgData.mimeType || 'image/png'};base64,${imgData.image}`;
           const imgEl = document.createElement('img');
           imgEl.src = generatedImageUrl;
           imgEl.style.cssText = 'width:100%;border-radius:10px;display:block;';
