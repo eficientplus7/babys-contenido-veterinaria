@@ -1346,15 +1346,43 @@ Al final agregá 6 hashtags relevantes en una línea con el formato exacto: HASH
         hashtagList.appendChild(span);
       });
 
-      // Por ahora sin imagen — la agregamos después
-      document.getElementById('imageLoading').style.display = 'none';
-      const placeholder = document.getElementById('imagePlaceholder');
-      placeholder.innerHTML = '<span style="font-size:48px">🐾</span><span style="font-size:13px;color:var(--text-muted)">Imagen próximamente</span>';
+      // Generar imagen con Imagen 3
+      try {
+        const imagePrompt = `Professional photography for a veterinary clinic Instagram post. Topic: ${servicio}. Happy healthy pet, warm lighting, clean modern veterinary clinic, vibrant colors, high quality commercial photography.`;
+        const imgRes = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              instances: [{ prompt: imagePrompt }],
+              parameters: { sampleCount: 1, aspectRatio: selectedType === 'historia' ? '9:16' : '1:1' }
+            })
+          }
+        );
+        const imgData = await imgRes.json();
+        if (imgData.predictions && imgData.predictions[0]) {
+          const b64 = imgData.predictions[0].bytesBase64Encoded;
+          const mimeType = imgData.predictions[0].mimeType || 'image/png';
+          generatedImageUrl = `data:${mimeType};base64,${b64}`;
+          const imgEl = document.createElement('img');
+          imgEl.src = generatedImageUrl;
+          imgEl.style.cssText = 'width:100%;border-radius:10px;display:block;';
+          const placeholder = document.getElementById('imagePlaceholder');
+          placeholder.innerHTML = '';
+          placeholder.appendChild(imgEl);
+        } else {
+          document.getElementById('imagePlaceholder').innerHTML = '<span style="font-size:36px">🐾</span><span style="font-size:12px;color:var(--text-muted)">Imagen no disponible con esta key</span>';
+        }
+      } catch(imgErr) {
+        document.getElementById('imagePlaceholder').innerHTML = '<span style="font-size:36px">🐾</span><span style="font-size:12px;color:var(--text-muted)">Imagen no disponible</span>';
+      }
 
     } catch (err) {
       document.getElementById('generatedText').textContent = '❌ Error: ' + err.message;
     } finally {
-      document.getElementById('imageLoading').style.display = 'none';
+      const imgLoad = document.getElementById('imageLoading');
+      if (imgLoad) imgLoad.style.display = 'none';
       btn.disabled = false;
       btn.textContent = '✨ Generar contenido';
       resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
